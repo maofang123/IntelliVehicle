@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-05-28 17:32:41 by Eclipse SUMO sumo Version 1.23.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="network.net.xml"/>
+        <route-files value="routes.rou.xml"/>
+    </input>
+
+    <output>
+        <summary-output value="summary.xml"/>
+        <tripinfo-output value="tripinfo.xml"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="3600"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.action value="warn"/>
+        <collision.mingap-factor value="1.0"/>
+    </processing>
+
+    <traci_server>
+        <remote-port value="55733"/>
+    </traci_server>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="leader" depart="5.00" departLane="edge1_0" departPos="100.00" departSpeed="0.00" departDelay="0.00" arrival="69.90" arrivalLane="edge1_0" arrivalPos="1000.00" arrivalSpeed="14.68" duration="64.90" routeLength="900.00" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.77" rerouteNo="0" devices="tripinfo_leader" vType="car" speedFactor="1.06" vaporized=""/>
+    <tripinfo id="dynamic_leader" depart="2.00" departLane="edge1_1" departPos="0.00" departSpeed="10.00" departDelay="0.00" arrival="70.60" arrivalLane="edge1_1" arrivalPos="1000.00" arrivalSpeed="14.65" duration="68.60" routeLength="1000.00" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="0.67" rerouteNo="0" devices="tripinfo_dynamic_leader" vType="car" speedFactor="1.06" vaporized=""/>
+    <tripinfo id="flow1.0" depart="0.00" departLane="edge1_0" departPos="5.10" departSpeed="0.00" departDelay="0.00" arrival="79.80" arrivalLane="edge1_0" arrivalPos="1000.00" arrivalSpeed="13.01" duration="79.80" routeLength="994.90" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.47" rerouteNo="0" devices="tripinfo_flow1.0" vType="car" speedFactor="0.94" vaporized=""/>
+    <tripinfo id="follower_11" depart="4.90" departLane="edge1_1" departPos="28.94" departSpeed="8.00" departDelay="2.90" arrival="80.20" arrivalLane="edge1_1" arrivalPos="1000.00" arrivalSpeed="14.03" duration="75.30" routeLength="971.06" waitingTime="2.20" waitingCount="1" stopTime="0.00" timeLoss="6.07" rerouteNo="0" devices="tripinfo_follower_11" vType="car" speedFactor="1.01" vaporized=""/>
+    <tripinfo id="flow2.0" depart="3.70" departLane="edge1_0" departPos="12.10" departSpeed="0.00" departDelay="3.70" arrival="81.60" arrivalLane="edge1_0" arrivalPos="1000.00" arrivalSpeed="14.01" duration="77.90" routeLength="987.90" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="7.42" rerouteNo="0" devices="tripinfo_flow2.0" vType="truck" speedFactor="1.01" vaporized=""/>
+    <tripinfo id="follower_12" depart="12.00" departLane="edge1_1" departPos="33.23" departSpeed="8.00" departDelay="10.00" arrival="85.70" arrivalLane="edge1_0" arrivalPos="1000.00" arrivalSpeed="15.00" duration="73.70" routeLength="966.77" waitingTime="5.10" waitingCount="1" stopTime="0.00" timeLoss="9.35" rerouteNo="0" devices="tripinfo_follower_12" vType="car" speedFactor="1.08" vaporized=""/>
+    <tripinfo id="flow1.2" depart="14.50" departLane="edge1_0" departPos="5.10" departSpeed="0.00" departDelay="2.50" arrival="95.90" arrivalLane="edge1_0" arrivalPos="1000.00" arrivalSpeed="14.44" duration="81.40" routeLength="994.90" waitingTime="2.10" waitingCount="1" stopTime="0.00" timeLoss="12.88" rerouteNo="0" devices="tripinfo_flow1.2" vType="car" speedFactor="1.05" vaporized=""/>
+    <tripinfo id="flow1.1" depart="7.40" departLane="edge1_0" departPos="5.10" departSpeed="0.00" departDelay="1.40" arrival="97.40" arrivalLane="edge1_0" arrivalPos="1000.00" arrivalSpeed="11.52" duration="90.00" routeLength="994.90" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="3.81" rerouteNo="0" devices="tripinfo_flow1.1" vType="car" speedFactor="0.83" vaporized=""/>
+</tripinfos>
