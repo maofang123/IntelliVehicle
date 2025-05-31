@@ -47,16 +47,18 @@ class SUMOSimulation:
         
     def add_vehicles(self):
         """動態新增車輛"""
-        # 新增前導車
-        traci.vehicle.add("dynamic_leader", "route1", typeID="car", depart="now", 
-                         departLane=1, departPos=0, departSpeed=10)
-        
-        # 新增跟車
+        # 新增主車（往右開）
+        traci.vehicle.add("dynamic_leader", "route_forward", typeID="car", depart="now", 
+                  departLane="0", departPos=0, departSpeed=10)
+
+        # 新增跟車（往右開）
         for i in range(3):
             vehicle_id = f"follower_{i+10}"
             depart_pos = random.uniform(0, 50)
-            traci.vehicle.add(vehicle_id, "route1", typeID="car", depart="now",
-                             departLane=1, departPos=depart_pos, departSpeed=8)
+            traci.vehicle.add(vehicle_id, "route_forward", typeID="car", depart="now",
+                  departLane="0", departPos=depart_pos, departSpeed=8)
+
+
     
     def control_car_following(self):
         """控制車輛跟車行為"""

@@ -1,32 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
-
+    
     <input>
         <net-file value="network.net.xml"/>
         <route-files value="routes.rou.xml"/>
     </input>
-
+    
     <time>
         <begin value="0"/>
-        <end value="3600"/>
+        <end value="600"/>
         <step-length value="0.1"/>
     </time>
-
+    
     <processing>
         <collision.action value="warn"/>
-        <collision.mingap-factor value="1.0"/>
+        <collision.check-junctions value="true"/>
+        <lateral-resolution value="0.8"/>
+        <ignore-route-errors value="true"/>
     </processing>
-
-    <output>
-        <summary-output value="summary.xml"/>
-        <tripinfo-output value="tripinfo.xml"/>
-    </output>
-
-    <!-- 移除或註解掉以下部分 -->
-    <!--
-    <gui_only>
-        <gui-settings-file value="gui-settings.cfg"/>
-    </gui_only>
-    -->
-
+    
 </configuration>
