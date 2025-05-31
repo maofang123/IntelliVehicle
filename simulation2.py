@@ -500,7 +500,7 @@ class SUMOOvertakingSimulation:
                     print(f"[PHASE] P2 → P3  (prepare to return)")
 
             elif self.current_phase == OvertakingPhase.OVERTAKING_PHASE_3:
-                ego_state = self.get_vehicle_state(self.ego_vehicle_id)  # 🔁 強制更新
+                ego_state = self.get_vehicle_state(self.ego_vehicle_id)  #  強制更新
                 lane_index = ego_state.lane_index
                 lane_pos = ego_state.lane_position
 
