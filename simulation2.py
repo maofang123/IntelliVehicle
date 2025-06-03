@@ -356,7 +356,7 @@ class SUMOOvertakingSimulation:
     </edge>
 
     <junction id="west" type="dead_end" x="0.00" y="5.25" incLanes="westbound_0" intLanes="" shape="0.00,10.50 0.00,0.00"/>
-    <junction id="east" type="dead_end" x="1500.00" y="5.25" incLanes="eastbound_0 eastbound_1" intLanes="" shape="1500.00,0.00 1500.00,10.50"/>
+    <junction id="east" type="dead_end" x="3500.00" y="5.25" incLanes="eastbound_0 eastbound_1" intLanes="" shape="1500.00,0.00 1500.00,10.50"/>
 
 </net>"""
         
@@ -374,7 +374,7 @@ class SUMOOvertakingSimulation:
     <route id="route_westbound" edges="westbound"/>
     
     <!-- Vehicle types -->
-    <vType id="ego_type" maxSpeed="30" accel="3.0" decel="4.5" sigma="0.0" length="4.5" minGap="2.0"/>
+    <vType id="ego_type" maxSpeed="20" accel="3.0" decel="4.5" sigma="0.0" length="4.5" minGap="2.0"/>
     <vType id="slow_type" maxSpeed="6" accel="1.0" decel="3.0" sigma="0.0" length="4.5" minGap="2.0"/>
     <vType id="oncoming_type" maxSpeed="20" accel="2.0" decel="4.0" sigma="0.0" length="4.5" minGap="2.0"/>
     
@@ -493,31 +493,60 @@ class SUMOOvertakingSimulation:
                     print(f"[PHASE] P1 → P2  (oncoming lane driving)")
 
             elif self.current_phase == OvertakingPhase.OVERTAKING_PHASE_2:
-                if ego_state.lane_position >= self.return_position:
+                # 檢查是否滿足返回條件
+                should_return = False
+                
+                # 1. 檢查是否超過返回位置
+                position_check = ego_state.lane_position - 15 >= self.return_position
+                
+                # 2. 檢查是否已超過前車足夠距離
+                if vehicle_f_state:
+                    distance_to_front = abs(ego_state.lane_position - vehicle_f_state.lane_position)
+                    distance_check = distance_to_front >= 1.0  # 確保有足夠安全距離
+                else:
+                    distance_check = True
+                    
+                should_return = position_check and distance_check
+                
+                print(should_return, position_check, distance_check)
+                if should_return:
                     print(f"[DBG P2] ego_pos={ego_state.lane_position:.2f}, return_pos={self.return_position:.2f}")
-                    traci.vehicle.changeLane(self.ego_vehicle_id, 0, 3.0)
+                    print(f"[DBG P2] distance_to_front={distance_to_front:.2f}")
+                    # 開始變道並轉換到Phase 3
+                    traci.vehicle.changeLane(self.ego_vehicle_id, 0, 2.0)  # 縮短變道時間
                     self.current_phase = OvertakingPhase.OVERTAKING_PHASE_3
+                    self.lane_change_duration = 0  # 重置變道計時器
                     print(f"[PHASE] P2 → P3  (prepare to return)")
 
-            elif self.current_phase == OvertakingPhase.OVERTAKING_PHASE_3:
-                ego_state = self.get_vehicle_state(self.ego_vehicle_id)  #  強制更新
-                lane_index = ego_state.lane_index
-                lane_pos = ego_state.lane_position
+        elif self.current_phase == OvertakingPhase.OVERTAKING_PHASE_3:
+            ego_state = self.get_vehicle_state(self.ego_vehicle_id)
+            lane_index = ego_state.lane_index
+            lane_pos = ego_state.lane_position
+            self.lane_change_duration += 1
 
-                print(f"[DBG P3] phase_check, lane_index={lane_index}, ego_pos={lane_pos:.2f}, return_pos={self.return_position:.2f}")
+            print(f"[DBG P3] phase_check, lane_index={lane_index}, ego_pos={lane_pos:.2f}, return_pos={self.return_position:.2f}, duration={self.lane_change_duration}")
 
-                if lane_index == 0:
-                    print("[DBG P3] lane_index == 0 判斷成立")
+            if lane_index == 0:
+                print("[DBG P3] 已成功返回原車道")
+                self.current_phase = OvertakingPhase.LANE_KEEPING
+                traci.vehicle.setSpeed(self.ego_vehicle_id, 18.0)  # 設回期望速度
+                print(f"[PHASE] P3 → LK  (return complete)")
+            else:
+                print("[DBG P3] 尚未返回原車道，繼續嘗試變道")
+                # 強制降低速度以輔助變道
+                current_speed = ego_state.speed
+                target_speed = min(current_speed * 0.7, 15.0)  # 顯著降低速度
+                traci.vehicle.setSpeed(self.ego_vehicle_id, target_speed)
+                
+                # 連續發送變道命令
+                for _ in range(3):  # 多次嘗試
+                    traci.vehicle.changeLane(self.ego_vehicle_id, 0, 1.0)
+                
+                # 變道超時保護縮短
+                if self.lane_change_duration > 30:  # 3秒保護
+                    print("[DBG P3] 變道超時，強制重置")
                     self.current_phase = OvertakingPhase.LANE_KEEPING
-                    print(f"[PHASE] P3 → LK  (return complete)")
-                else:
-                    print("[DBG P3] 尚未切回原道")
-
-
-
-
-        else:
-            traci.vehicle.changeLane(self.ego_vehicle_id, 0, 3.0)
+                    traci.vehicle.changeLane(self.ego_vehicle_id, 0, 0.5)
 
 
 

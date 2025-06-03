@@ -15,6 +15,6 @@
     </edge>
 
     <junction id="west" type="dead_end" x="0.00" y="5.25" incLanes="westbound_0" intLanes="" shape="0.00,10.50 0.00,0.00"/>
-    <junction id="east" type="dead_end" x="1500.00" y="5.25" incLanes="eastbound_0 eastbound_1" intLanes="" shape="1500.00,0.00 1500.00,10.50"/>
+    <junction id="east" type="dead_end" x="3500.00" y="5.25" incLanes="eastbound_0 eastbound_1" intLanes="" shape="1500.00,0.00 1500.00,10.50"/>
 
 </net>
